@@ -11,11 +11,11 @@ class Basket extends Model
 
     public function users()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Models\User');
     }
 
     public function products()
     {
-        return $this->belongsTo('App\Product');
+        return $this->belongsTo('App\Models\Product');
     }
 }

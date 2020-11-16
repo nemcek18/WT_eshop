@@ -44,16 +44,16 @@ class User extends Authenticatable
 
     public function adresses()
     {
-        return $this->belongsTo('App\Address');
+        return $this->belongsTo('App\Models\Address');
     }
 
     public function baskets()
     {
-        return $this->hasMany('App\Basket');
+        return $this->hasMany('App\Models\Basket');
     }
 
     public function orders()
     {
-        return $this->hasMany('App\Order');
+        return $this->hasMany('App\Models\Order');
     }
 }
