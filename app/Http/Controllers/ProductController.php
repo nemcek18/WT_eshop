@@ -7,6 +7,17 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+
+    public function show_laptops()
+    {
+
+        // $laptops = product::with('categories')->get();
+        $laptops = Product::whereHas('categories',function ($q){
+            $q->where('name','=','laptops'); 
+        })->simplePaginate(24);
+        // echo $laptops;     
+        return view('products.laptops')->with('laptops', $laptops);
+    }
     /**
      * Display a listing of the resource.
      *
