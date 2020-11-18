@@ -11,11 +11,12 @@ class ProductController extends Controller
     public function show_laptops()
     {
 
-        // $laptops = product::with('categories')->get();
         $laptops = Product::whereHas('categories',function ($q){
-            $q->where('name','=','laptops'); 
-        })->simplePaginate(24);
-        // echo $laptops;     
+                            $q->where('category_id','=','6'); })
+                            ->join('images','products.id','=','images.product_id')
+                            ->where('images.type','small')
+                            ->Paginate(24)->onEachSide(2);
+
         return view('products.laptops')->with('laptops', $laptops);
     }
     /**
