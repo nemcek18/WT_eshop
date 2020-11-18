@@ -48,21 +48,35 @@
                 </div>
             @else
                 <div class="col-6 pt-3 text-center col-md-2 offset-md-1 pt-md-0 text-md-left d-flex flex-column pr-0">
-                    <a href="#" id="user" data-toggle="modal" data-target="#modal_login">
-                        <div class="row justify-content-center align-items-center">
-                            <div class="pr-1">
-                                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
-                                    <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                                    <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
-                                </svg>
-                            </div>
-                            <p class="font-weight-bold m-0" id="user"> Odhlásiť sa</p>
+                    <a href="#" id="user">
+                    <div class="row justify-content-center align-items-center">
+                        <div class="pr-1">
+                            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
+                                <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                                <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
+                            </svg>
                         </div>
+                        <!--
+                        <p class="font-weight-bold m-0" id="user"> Odhlásiť sa</p>
+                        -->
+
+                        <!--Odhlasenie-->
+                        <p class="font-weight-bold m-0" id="user" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                                    document.getElementById('logout-form').submit();"
+                        > Odhlásiť sa</p>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+
+                    </div>
                     </a>
+                    
                     <div class="row justify-content-center">
                         <a href="../nastavenia/nastavenia.html">
-                            <p class="text-muted m-0" id="username">{{ Auth::user()->name }}</p>
+                            <p class="text-muted m-0" id="username">{{ Auth::user()->name . " " . Auth::user()->surname }}</p>
                         </a>
                     </div>
                 </div>
