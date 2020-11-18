@@ -18,7 +18,12 @@ Route::get('/', function () {
 });
 
 
-Route::get('/laptops','App\Http\Controllers\ProductController@show_laptops');
+Route::get('/{tablets}',['uses' => 'App\Http\Controllers\ProductController@show_category']);
+Route::get('/{mobiles}',['uses' => 'App\Http\Controllers\ProductController@show_category']);
+Route::get('/{watches}',['uses' => 'App\Http\Controllers\ProductController@show_category']);
+Route::get('/{televisions}',['uses' => 'App\Http\Controllers\ProductController@show_category']);
+Route::get('/{computers}',['uses' => 'App\Http\Controllers\ProductController@show_category']);
+Route::get('/{laptops}',['uses' => 'App\Http\Controllers\ProductController@show_category']);
 
 Auth::routes();
 

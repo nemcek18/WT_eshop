@@ -8,17 +8,26 @@ use Illuminate\Http\Request;
 class ProductController extends Controller
 {
 
-    public function show_laptops()
+    public function show_category($category)
     {
+        $category_dict = [
+            'tablets' => 1,
+            'mobiles' => 2,
+            'watches' => 3,
+            'televisions' => 4,
+            'computers' => 5,
+            'laptops' => 6,
+        ];
 
-        $laptops = Product::whereHas('categories',function ($q){
-                            $q->where('category_id','=','6'); })
+        $products = Product::whereHas('categories',function ($q) use ($category_dict, $category){
+                            $q->where('category_id','=', $category_dict[$category]); })
                             ->join('images','products.id','=','images.product_id')
                             ->where('images.type','small')
                             ->Paginate(24)->onEachSide(2);
 
-        return view('products.laptops')->with('laptops', $laptops);
+        return view('products.products')->with('products', $products);
     }
+
     /**
      * Display a listing of the resource.
      *
