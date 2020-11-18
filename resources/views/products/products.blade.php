@@ -7,7 +7,7 @@
                 <div class="container pt-1 pt-md-3">
                     <div class="row">
                         <div class="col-md-4 col-xl-3 d-none d-md-block pt-2">
-                            <p class="text-muted m-0 text-center text-sm-center">24 položiek</p>
+                            <p class="text-muted m-0 text-center text-sm-center">{{ $products->total() }} položiek</p>
                         </div>
                         <div class="col-md-4 col-xl-3 offset-xl-3 text-center text-sm-right">
                             <a href="#" id="btn_kategorie" class="btn btn-dark btn-block" data-toggle="modal" data-target="#modal_filtrovanie">Filtrovať</a>

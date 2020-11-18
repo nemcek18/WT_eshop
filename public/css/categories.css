@@ -3,6 +3,27 @@
   border: 0;
 }
 
+.card-title {
+    height:45px;
+}
+
+.card-text {
+    position:relative;
+    max-height:200px;
+    overflow:hidden;
+}
+
+.card-text:after {
+    content:"";
+    position:absolute;
+    top:160px;
+    left:0;
+    height:40px;
+    width:100%;
+    background: -webkit-linear-gradient(#000, #fff);
+    background: linear-gradient(rgba(0,0,0,0), #fff);
+}
+
 
 /*remove numbe input arrows*/
 /* Chrome, Safari, Edge, Opera */
