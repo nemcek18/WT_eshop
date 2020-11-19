@@ -35,7 +35,7 @@
                             @foreach ($products as $key => $product)
                             <div class="col-10 offset-1 offset-sm-0 col-sm-6 col-md-4 col-xl-3 d-flex">
                                 <div class="card py-4 w-100 border-0 d-flex flex-column justify-content-between">
-                                    <a href="../../detail_produktu/detail_produktu.html" style="text-decoration:none; color:inherit;">
+                                    <a href="{{ url('/' . $category . '/' . $product['product_id']) }}" style="text-decoration:none; color:inherit;">
                                         <img class="card-img-top mx-auto" src="{{ $product->url }}" alt="obrazok produktu">
                                         <div class="card-body p-1">
                                             <h5 class="card-title font-weight-bold">{{ $product->brand }} {{ $product->model }}</h5>
