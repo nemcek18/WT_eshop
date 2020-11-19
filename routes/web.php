@@ -13,9 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
 	return view('home');
-});
+});*/
 
 
 Route::get('/laptops','App\Http\Controllers\ProductController@show_laptops');
@@ -23,3 +23,6 @@ Route::get('/laptops','App\Http\Controllers\ProductController@show_laptops');
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::get('/', 'App\Http\Controllers\HomeController@index');
