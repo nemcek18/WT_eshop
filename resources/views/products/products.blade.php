@@ -17,8 +17,8 @@
                                 <button class="btn btn-dark btn-block dropdown-toggle" type="button" id="btn_kategorie" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Zoradiť podľa
                                 </button>
                                 <div class="dropdown-menu w-100" aria-labelledby="btn_kategorie">
-                                    <a href="#" class="dropdown-item text-center text-md-left">Najlacnejšie</a>
-                                    <a href="#" class="dropdown-item text-center text-md-left">Najdrahšie</a>
+                                    <a href="{{ url('/' . $category . '/asc') }}" class="dropdown-item text-center text-md-left">Najlacnejšie</a>
+                                    <a href="{{ url('/' . $category . '/desc') }}" class="dropdown-item text-center text-md-left">Najdrahšie</a>
                                 </div>
                             </div>
                         </div>
@@ -39,7 +39,7 @@
                                         <img class="card-img-top mx-auto" src="{{ $product->url }}" alt="obrazok produktu">
                                         <div class="card-body p-1">
                                             <h5 class="card-title font-weight-bold">{{ $product->brand }} {{ $product->model }}</h5>
-                                            <p class="card-text"> {{ $product->description }} </p>
+                                            <p class="card-text">{{ $product->description }}</p>
                                         </div>
                                     </a>
                                     <div class="card-footer p-1">

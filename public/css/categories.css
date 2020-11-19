@@ -24,6 +24,10 @@
     background: linear-gradient(rgba(0,0,0,0), #fff);
 }
 
+.dropdown-item:active {
+  background-color: #4b4d4f;
+}
+
 
 /*remove numbe input arrows*/
 /* Chrome, Safari, Edge, Opera */
