@@ -14,8 +14,32 @@ class BasketController extends Controller
      */
     public function index()
     {
-        //
+        return view('baskets.basket');
     }
+
+
+    /**
+     * Display a delivery_payment form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function delivery_payment()
+    {
+        return view('baskets.delivery_payment');
+    }
+
+
+    /**
+     * Display a delivery data form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function delivery_data()
+    {
+        return view('baskets.delivery_data');
+    }
+
+
 
     /**
      * Show the form for creating a new resource.

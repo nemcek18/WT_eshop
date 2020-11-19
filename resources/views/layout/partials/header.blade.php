@@ -83,7 +83,7 @@
             @endguest
 
             <div class="col-6 pt-3 text-center col-md-2 pt-md-0 text-md-left d-flex flex-column">
-                <a href="../kos_prehlad/kos_prehlad.html" style="color:inherit">
+                <a href="{{ url('/basket') }}" style="color:inherit">
                     <div class="row justify-content-center align-items-center">
                         <div class="pr-1">
                             <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-cart4" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
