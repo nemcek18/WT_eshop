@@ -1,0 +1,43 @@
+.card-footer {
+  background-color: transparent;
+  border: 0;
+}
+
+.card-title {
+    height:45px;
+}
+
+.card-text {
+    position:relative;
+    max-height:200px;
+    overflow:hidden;
+}
+
+.card-text:after {
+    content:"";
+    position:absolute;
+    top:160px;
+    left:0;
+    height:40px;
+    width:100%;
+    background: -webkit-linear-gradient(#000, #fff);
+    background: linear-gradient(rgba(0,0,0,0), #fff);
+}
+
+.dropdown-item:active {
+  background-color: #4b4d4f;
+}
+
+
+/*remove numbe input arrows*/
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

@@ -18,7 +18,31 @@ use Illuminate\Support\Facades\Route;
 });*/
 
 
-Route::get('/laptops','App\Http\Controllers\ProductController@show_laptops');
+Route::get('/{tablets}',['uses' => 'App\Http\Controllers\ProductController@show_category']);
+Route::get('/{tablets}/{asc}',['uses' => 'App\Http\Controllers\ProductController@sort']);
+Route::get('/{tablets}/{desc}',['uses' => 'App\Http\Controllers\ProductController@sort']);
+
+Route::get('/{mobiles}',['uses' => 'App\Http\Controllers\ProductController@show_category']);
+Route::get('/{mobiles}/{asc}',['uses' => 'App\Http\Controllers\ProductController@sort']);
+Route::get('/{mobiles}/{desc}',['uses' => 'App\Http\Controllers\ProductController@sort']);
+
+Route::get('/{watches}',['uses' => 'App\Http\Controllers\ProductController@show_category']);
+Route::get('/{watches}/{asc}',['uses' => 'App\Http\Controllers\ProductController@sort']);
+Route::get('/{watches}/{desc}',['uses' => 'App\Http\Controllers\ProductController@sort']);
+
+Route::get('/{televisions}',['uses' => 'App\Http\Controllers\ProductController@show_category']);
+Route::get('/{computers}/{asc}',['uses' => 'App\Http\Controllers\ProductController@sort']);
+Route::get('/{televisions}/{desc}',['uses' => 'App\Http\Controllers\ProductController@sort']);
+
+
+Route::get('/{computers}',['uses' => 'App\Http\Controllers\ProductController@show_category']);
+Route::get('/{computers}/{asc}',['uses' => 'App\Http\Controllers\ProductController@sort']);
+Route::get('/{computers}/{desc}',['uses' => 'App\Http\Controllers\ProductController@sort']);
+
+Route::get('/{laptops}',['uses' => 'App\Http\Controllers\ProductController@show_category']);
+Route::get('/{laptops}/{asc}',['uses' => 'App\Http\Controllers\ProductController@sort']);
+Route::get('/{laptops}/{desc}',['uses' => 'App\Http\Controllers\ProductController@sort']);
+
 
 Auth::routes();
 

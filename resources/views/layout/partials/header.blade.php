@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-1 pr-md-0 pl-md-2 pr-lg-4 pl-lg-2">
                 <p class="text-center">
-                    <a href="../uvodna_strana/uvodna_strana.html">
+                    <a href="{{ url('/') }}">
                         <!---<img src="../img/logo.png" alt="logo" class="img-fluid rounded" style="max-width: 50px;">--->
                         <img src="{{ asset('/logo.png') }}" alt="logo" class="img-fluid rounded" style="max-width: 50px;">
                     </a>
