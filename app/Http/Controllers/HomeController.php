@@ -15,7 +15,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        //$this->middleware('auth');
     }
 
     /**
@@ -30,12 +30,13 @@ class HomeController extends Controller
         
         $products_list = self::generator(12,1,$products_count);
 
-        $products = Product::whereIn('id', $products_list)->get();
+        $products = Product::whereIn('products.id', $products_list)
+                    ->join('images','products.id','=','images.product_id')
+                    ->where('images.type','small')->get();
 
         $action_products = $products->slice(0, 4);
         $new_products = $products->slice(4, 4);
         $rec_products = $products->slice(8, 4);
-
         
         return view('home')->with('action_products', $action_products)
                     ->with('new_products', $new_products)
