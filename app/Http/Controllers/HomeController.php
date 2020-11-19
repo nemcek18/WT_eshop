@@ -32,7 +32,11 @@ class HomeController extends Controller
 
         $products = Product::whereIn('products.id', $products_list)
                     ->join('images','products.id','=','images.product_id')
-                    ->where('images.type','small')->get();
+                    ->where('images.type','small')
+                    ->join('categories_products','products.id','=','categories_products.product_id')
+                    ->join('categories','categories_products.category_id','=','categories.id')
+                    ->get();
+
 
         $action_products = $products->slice(0, 4);
         $new_products = $products->slice(4, 4);
