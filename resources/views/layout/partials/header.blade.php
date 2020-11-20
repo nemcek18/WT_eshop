@@ -95,8 +95,20 @@
                 </a>
 
                 <div class="row justify-content-center">
-                    <!--Dorobit cenu podla aktualneho kosika--->
-                    <p class="text-muted m-0">1348,98 €</p>
+                    @if(session('cart'))
+                        @php
+                            $final_price = 0
+                        @endphp
+
+                        @foreach(session('cart') as $id => $product)
+                            @php
+                                $final_price = $final_price + $product['overall_price']
+                            @endphp
+                        @endforeach
+                        <p class="text-muted m-0">{{ $final_price }} €</p>
+                    @else
+                        <p class="text-muted m-0">0 €</p>
+                    @endif
                 </div>
             </div>
         </div>

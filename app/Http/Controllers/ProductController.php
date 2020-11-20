@@ -168,4 +168,71 @@ class ProductController extends Controller
     {
         //
     }
+
+
+
+    public function addToCart($id)
+    {
+        $out = new \Symfony\Component\Console\Output\ConsoleOutput();
+        //$out->writeln("Vyvolana funkcia addToCart");
+        $out->writeln("id: " . $id);
+
+        $product = Product::where('product_id' , '=' , $id)   
+                    ->join('images','products.id','=','images.product_id')
+                    ->where('images.type','small')
+                    ->first();
+
+        if(!$product) {
+            abort(404);
+        }
+
+        $cart = session()->get('cart');
+        // if cart is not created, create cart
+        if(!$cart) {
+            $cart = [];
+        }
+
+        $cart[$id] = [
+            "brand" => $product->brand,
+            "model" => $product->model,
+            "photo_url" => $product->url,
+            "price" => $product->price,
+            "overall_price" => $product->price,
+            "quantity" => 1];
+
+        session()->put('cart', $cart);
+        //return redirect()->back();
+        return redirect()->back()->with('modal', $id);
+    }
+
+
+    public function removeCart(Request $request, $id)
+    {
+        $cart = session()->get('cart');
+        if(isset($cart[$id])) {
+            unset($cart[$id]);
+            session()->put('cart', $cart);
+        }
+
+        $request->session()->flash('success', 'Product removed successfully');
+        return redirect()->back();
+    }
+
+
+    public function updateCart($id)
+    {
+        $out = new \Symfony\Component\Console\Output\ConsoleOutput();
+        $out->writeln("Vyvolana funkcia updateCart");
+        $out->writeln("id: " . $id);
+
+        /*if($request->id and $request->quantity)
+        {
+            $cart = session()->get('cart');
+            $cart[$request->id]["quantity"] = $request->quantity;
+            session()->put('cart', $cart);
+            $request->session()->flash('success', 'Cart updated successfully');
+        }*/
+
+        return redirect()->back();
+    }      
 }

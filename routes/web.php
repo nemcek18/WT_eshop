@@ -13,6 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//Route::get('/cart_add/{id}', 'App\Http\Controllers\ProductController@addToCart');
+
+Route::get('/cart_add/{id}', 'App\Http\Controllers\ProductController@addToCart');
+Route::get('/remove_cart/{id}', 'App\Http\Controllers\ProductController@removeCart');
+Route::get('/update_cart/{id}', 'App\Http\Controllers\ProductController@updateCart');
+
 Auth::routes();
 
 Route::get('/basket', 'App\Http\Controllers\BasketController@index');

@@ -154,11 +154,23 @@
     </article>
 </section>
 
+@if(session('cart'))
+    @php
+        $final_price = 0
+    @endphp
+
+    @foreach(session('cart') as $id => $product)
+        @php
+            $final_price = $final_price + $product['overall_price']
+        @endphp
+    @endforeach
+@endif
+
 <section id="navigation_down">
     <div class="container">
         <div class="row justify-content-center align-items-center">
             <div class="col-6 col-md-4 col-lg-3 py-4 text-center">
-                <h5 class="font-weight-bold m-0">Spolu: 7348,98 €</h5>
+                <h5 class="font-weight-bold m-0">Spolu: {{ $final_price }} €</h5>
             </div>
             <div class="col-6 col-md-4 col-lg-3 py-4">
                 <a href="{{ url('/basket/delivery_data') }}" role="button" id="btn_kategorie" type="submit" class="btn btn-dark btn-block">Pokračovať</a>

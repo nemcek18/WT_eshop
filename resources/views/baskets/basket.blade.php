@@ -17,7 +17,15 @@
     <div class="container">
         <div class="row justify-content-center align-items-center">
             <div class="col-6 col-md-4 col-lg-3 pt-1">
-                <p class="text-muted my-auto">3 položky</p>
+                @if(session('cart'))
+                    @if(count(session('cart')) > 1)
+                    <p class="text-muted my-auto">{{ count(session('cart')) }}  položky</p>
+                    @else
+                    <p class="text-muted my-auto">{{ count(session('cart')) }}  položka</p>
+                    @endif
+                @else
+                    <p class="text-muted my-auto">Košík je prázdny</p>
+                @endif
             </div>
             <div class="col-6 col-md-4 col-lg-3 pt-1 text-center">
             </div>
@@ -31,48 +39,54 @@
         <div class="container">
 
             
+            @if(session('cart'))
+                @foreach(session('cart') as $id => $product)
             
-            
-            <div class="col-12 p-4">
-                <hr>
-            </div>
-
-            <div class="row justify-content-center">
-                <div class="col-12 col-md-8 col-lg-6">
-                    <div class="row justify-content-between">
-                        <div class="col-auto">
-                            <p class=" m-0">Macbook Pro 13 2020</p>
-                        </div>
-                        <div class="col-auto">
-                            <button type="button" class="btn btn-outline-dark btn-sm" id="btn_kategorie">x</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row justify-content-center align-items-start">
-                <div class="col-6 col-md-4 col-lg-3">
-                    <img src="../img/laptop.jpg">
+                <div class="col-12 p-4">
+                    <hr>
                 </div>
 
-                <div class="col-6 col-md-4 col-lg-3 mt-3 mt-sm-5">
-                    <div class="row justify-content-end">
-                        <div class="col-12 col-sm-8 col-xl-6 text-right pl-0">
-                            <div class="input-group my-1">
-                                <button class="btn btn-outline-dark" type="button">-</button>
-                                <input type="number" class="form-control" value="1" min="1" max="10">
-                                <button class="btn btn-outline-dark" type="button">+</button>
+                <div class="row justify-content-center">
+                    <div class="col-12 col-md-8 col-lg-6">
+                        <div class="row justify-content-between">
+                            <div class="col-auto">
+                                <p class=" m-0">{{ $product['brand'] }} {{ $product['model'] }}</p>
+                            </div>
+                            <div class="col-auto">
+                                <p class="btn-holder"><a href="{{ url('/remove_cart/'.$id) }}" class="btn btn-outline-dark btn-sm" role="button">X</a></p>
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="row justify-content-center align-items-start">
+                    <div class="col-6 col-md-4 col-lg-3">
+                        <img src="{{ $product['photo_url'] }}" alt="obrazok produktu" width="70%">
+                    </div>
 
-                    <div class="row justify-content-end">
-                        <div class="col text-right mt-sm-5">
-                            <p class="font-weight-bold">1348,98 €</p>
+                    <div class="col-6 col-md-4 col-lg-3 mt-3 mt-sm-5">
+                        <div class="row justify-content-end">
+                            <div class="col-12 col-sm-8 col-xl-6 text-right pl-0">
+                                <div class="input-group my-1">
+                                    <a href="{{ url('/update_cart/'.$id) }}">
+                                        <button class="btn btn-outline-dark" type="button">-</button>
+                                    </a>
+                                    <input type="number" class="form-control" value="1" min="1" max="10">
+                                    <a href="{{ url('/update_cart/'.$id) }}">
+                                        <button class="btn btn-outline-dark" type="button">+</button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-end">
+                            <div class="col text-right mt-sm-5">
+                                <p class="font-weight-bold">{{ $product['price'] }} €</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
+                @endforeach
+            @endif
 
 
 
@@ -84,18 +98,30 @@
     <hr>
 </div>
 
-<section id="navigation_down">
-    <div class="container">
-        <div class="row justify-content-center align-items-center">
-            <div class="col-6 col-md-4 col-lg-3 py-4 text-center">
-                <h5 class="font-weight-bold m-0">Spolu: 7348,98 €</h5>
-            </div>
-            <div class="col-6 col-md-4 col-lg-3 py-4">
-                <a href="{{ url('/basket/delivery&payment') }}" role="button" id="btn_kategorie" type="submit" class="btn btn-dark btn-block">Pokračovať</a>
+
+@if(session('cart'))
+    @php
+        $final_price = 0
+    @endphp
+
+    @foreach(session('cart') as $id => $product)
+        @php
+            $final_price = $final_price + $product['overall_price']
+        @endphp
+    @endforeach
+    <section id="navigation_down">
+        <div class="container">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-6 col-md-4 col-lg-3 py-4 text-center">
+                    <h5 class="font-weight-bold m-0">Spolu: {{ $final_price }} €</h5>
+                </div>
+                <div class="col-6 col-md-4 col-lg-3 py-4">
+                    <a href="{{ url('/basket/delivery&payment') }}" role="button" id="btn_kategorie" type="submit" class="btn btn-dark btn-block">Pokračovať</a>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+@endif
 
 
 @endsection
