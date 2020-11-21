@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/cart_add/{id}', 'App\Http\Controllers\ProductController@addToCart');
 Route::get('/remove_cart/{id}', 'App\Http\Controllers\ProductController@removeCart');
-Route::get('/update_cart/{id}', 'App\Http\Controllers\ProductController@updateCart');
+Route::get('/update_cart/{id}/{quantity}', 'App\Http\Controllers\ProductController@updateCart');
 
 Auth::routes();
 

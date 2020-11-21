@@ -219,19 +219,18 @@ class ProductController extends Controller
     }
 
 
-    public function updateCart($id)
+    public function updateCart($id,$quantity)
     {
-        $out = new \Symfony\Component\Console\Output\ConsoleOutput();
+        /*$out = new \Symfony\Component\Console\Output\ConsoleOutput();
         $out->writeln("Vyvolana funkcia updateCart");
         $out->writeln("id: " . $id);
+        $out->writeln("quantity: " . $quantity);*/
 
-        /*if($request->id and $request->quantity)
-        {
-            $cart = session()->get('cart');
-            $cart[$request->id]["quantity"] = $request->quantity;
-            session()->put('cart', $cart);
-            $request->session()->flash('success', 'Cart updated successfully');
-        }*/
+
+        $cart = session()->get('cart');
+        $cart[$id]["quantity"] = $quantity;
+        $cart[$id]["overall_price"] = $quantity * $cart[$id]["price"];
+        session()->put('cart', $cart);
 
         return redirect()->back();
     }      

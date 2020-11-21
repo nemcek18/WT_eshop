@@ -115,7 +115,7 @@
                         </div>
                         <div class="modal-footer p-2">
                             <button type="button" class="btn btn-outline-dark mr-auto" data-dismiss="modal" aria-label="Close">Späť</button>
-                            <a href="../../kos_prehlad/kos_prehlad.html">
+                            <a href="{{ url('/basket') }}">
                                 <button type="button" class="btn btn-dark ml-auto">Pokračovať do košíka</button>
                             </a>
                         </div>
@@ -174,7 +174,7 @@
                         </div>
                         <div class="modal-footer p-2">
                             <button type="button" class="btn btn-outline-dark mr-auto" data-dismiss="modal" aria-label="Close">Späť</button>
-                            <a href="../../kos_prehlad/kos_prehlad.html">
+                            <a href="{{ url('/basket') }}">
                                 <button type="button" class="btn btn-dark ml-auto">Pokračovať do košíka</button>
                             </a>
                         </div>
@@ -189,7 +189,8 @@
 
 @if(!empty(Session::get('modal')))
 @php
-    $passed_id = Session::get('modal')
+    $passed_id = Session::get('modal');
+    Session::forget('modal');
 @endphp
 <script>
 $(function() {

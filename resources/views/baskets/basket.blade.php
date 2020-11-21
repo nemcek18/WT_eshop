@@ -67,20 +67,32 @@
                         <div class="row justify-content-end">
                             <div class="col-12 col-sm-8 col-xl-6 text-right pl-0">
                                 <div class="input-group my-1">
+                                    <!--
                                     <a href="{{ url('/update_cart/'.$id) }}">
                                         <button class="btn btn-outline-dark" type="button">-</button>
                                     </a>
-                                    <input type="number" class="form-control" value="1" min="1" max="10">
-                                    <a href="{{ url('/update_cart/'.$id) }}">
+                                    --->
+                                    <!--
+                                    <button id="minus{{ $id }}" class="btn btn-outline-dark" type="button" onclick="minus_product('{{ $id }}')">-</button>
+                                    --->
+                                    <button data-product-id="{{ $id }}" class="btn btn-outline-dark minus-button" type="button">-</button>
+                                    <input id="quantity{{ $id }}" type="number" class="form-control" value="{{ $product['quantity'] }}" min="1" max="99">
+                                    <!--<a href="{{ url('/update_cart/'.$id) }}">
                                         <button class="btn btn-outline-dark" type="button">+</button>
                                     </a>
+                                    --->
+                                    <!--
+                                    <button id="plus{{ $id }}" class="btn btn-outline-dark" type="button" onclick="plus_product('{{ $id }}')">+</button>
+                                    --->
+                                    <button data-product-id="{{ $id }}" class="btn btn-outline-dark plus-button" type="button" >+</button>
+                                   
                                 </div>
                             </div>
                         </div>
 
                         <div class="row justify-content-end">
                             <div class="col text-right mt-sm-5">
-                                <p class="font-weight-bold">{{ $product['price'] }} €</p>
+                                <p class="font-weight-bold">{{ $product['overall_price'] }} €</p>
                             </div>
                         </div>
                     </div>
@@ -122,6 +134,47 @@
         </div>
     </section>
 @endif
+
+
+
+<script>
+/*function plus_product(pressed_id) {
+    //pressed_id = $(this).data("id");
+
+    document.getElementById('quantity'+pressed_id).stepUp();
+};
+
+function minus_product(pressed_id) {
+    document.getElementById('quantity'+pressed_id).stepDown();
+};*/
+
+
+$(document).on('click', '.plus-button', function() {
+    pressed_id = $(this).data("product-id");
+    quantity = document.getElementById('quantity'+pressed_id).value;
+
+    if(quantity !=99){
+        document.getElementById('quantity'+pressed_id).stepUp();
+        quantity = document.getElementById('quantity'+pressed_id).value;
+        window.location.href = "/update_cart/"+pressed_id+"/"+quantity;
+    }
+
+});
+
+$(document).on('click', '.minus-button', function() {
+    pressed_id = $(this).data("product-id");
+    quantity = document.getElementById('quantity'+pressed_id).value;
+
+    if(quantity !=1){
+        document.getElementById('quantity'+pressed_id).stepDown();
+        quantity = document.getElementById('quantity'+pressed_id).value;
+        window.location.href = "/update_cart/"+pressed_id+"/"+quantity;
+    }
+
+});
+
+
+</script>
 
 
 @endsection
