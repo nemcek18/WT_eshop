@@ -43,40 +43,41 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-12 col-md-8 col-lg-6">
-                        <form action="../dokoncenie_objednavky/dokoncenie_objednavky.html" id="dodacie_udaje" method="post">
+                        <form action="{{ url('/basket/delivery_data') }}" id="delivery_data" method="post">
+                            {{ csrf_field() }}
                             <div class="form-group py-1">
-                            <label class="font-weight-bold" for="input_name">Meno</label>
-                            <input type="text" class="form-control" id="input_name" title="meno" pattern="([a-zA-Z]+)" required>
+                                <label class="font-weight-bold" for="input_name">Meno</label>
+                                <input name="name" type="text" class="form-control" id="input_name" title="meno" pattern="([a-zA-Z]+)" required>
                             </div>
                             <div class="form-group py-1">
-                            <label class="font-weight-bold" for="input_surname">Priezvisko</label>
-                            <input type="text" class="form-control" id="input_surname" title="priezvisko" pattern="([a-zA-Z]+)" required>
+                                <label class="font-weight-bold" for="input_surname">Priezvisko</label>
+                                <input name="surname" type="text" class="form-control" id="input_surname" title="priezvisko" pattern="([a-zA-Z]+)" required>
                             </div>
                             <div class="form-group py-1">
-                            <label class="font-weight-bold"  for="input_street">Ulica</label>
-                            <input type="text" class="form-control" id="input_street" required>
+                                <label class="font-weight-bold"  for="input_street">Ulica</label>
+                                <input name="street" type="text" class="form-control" id="input_street" required>
                             </div>
                             <div class="form-group py-1">
-                            <label class="font-weight-bold"  for="input_city">Mesto</label>
-                            <input type="text" class="form-control" id="input_city" required>
+                                <label class="font-weight-bold"  for="input_city">Mesto</label>
+                                <input name="city" type="text" class="form-control" id="input_city" required>
                             </div>
                             <div class="form-group py-1">
-                            <label class="font-weight-bold"  for="input_psc">PSČ</label>
-                            <input type="text" class="form-control" id="input_psc" title="111 22" pattern="[0-9]{3} [0-9]{2}" required>
+                                <label class="font-weight-bold"  for="input_psc">PSČ</label>
+                                <input name="postcode" type="text" class="form-control" id="input_psc" title="111 22" pattern="[0-9]{3} [0-9]{2}" required>
                             </div>
                             <div class="form-group py-1">
-                            <label class="font-weight-bold"  for="input_email">Email</label>
-                            <input type="email" class="form-control" id="input_email" required>
+                                <label class="font-weight-bold"  for="input_email">Email</label>
+                                <input name="email" type="email" class="form-control" id="input_email" required>
                             </div>
                             <div class="form-group py-1">
-                            <label class="font-weight-bold"  for="input_phone">Telefón</label>
+                                <label class="font-weight-bold"  for="input_phone">Telefón</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">+421</span>
                                 </div>
-                            <input type="tel" class="form-control" id="input_phone" pattern="[0-9]{3} [0-9]{3} [0-9]{3}" title="111 222 333" required>
+                                <input name="tel" type="tel" class="form-control" id="input_phone" pattern="[0-9]{3} [0-9]{3} [0-9]{3}" title="111 222 333" required>
                             </div>
-                            </div>
+
                         </form>
                     </div>
                 </div>
@@ -92,7 +93,8 @@
                 <h5 class="font-weight-bold m-0">Spolu: 7348,98 €</h5>
             </div>
             <div class="col-6 col-md-4 col-lg-3 py-4">
-                <a href="" role="button" id="btn_kategorie" type="submit" class="btn btn-dark btn-block">Objednať</a>
+                <!--<a href="" role="button" id="btn_kategorie" type="submit" class="btn btn-dark btn-block">Objednať</a>--->
+                <button class="btn btn-dark btn-block" form="delivery_data" type="submit" value="Submit">Objednať</button>
             </div>
         </div>
     </div>

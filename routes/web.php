@@ -15,14 +15,17 @@ use Illuminate\Support\Facades\Route;
 
 //Route::get('/cart_add/{id}', 'App\Http\Controllers\ProductController@addToCart');
 
+
 Route::get('/cart_add/{id}', 'App\Http\Controllers\ProductController@addToCart');
 Route::get('/remove_cart/{id}', 'App\Http\Controllers\ProductController@removeCart');
 Route::get('/update_cart/{id}/{quantity}', 'App\Http\Controllers\ProductController@updateCart');
+Route::post('/basket/delivery_payment', 'App\Http\Controllers\BasketController@get_delivery_payment');
+Route::post('/basket/delivery_data', 'App\Http\Controllers\OrderController@create');
 
 Auth::routes();
 
 Route::get('/basket', 'App\Http\Controllers\BasketController@index');
-Route::get('/basket/delivery&payment', 'App\Http\Controllers\BasketController@delivery_payment');
+Route::get('/basket/delivery_payment', 'App\Http\Controllers\BasketController@delivery_payment');
 Route::get('/basket/delivery_data', 'App\Http\Controllers\BasketController@delivery_data');
 
 Route::get('/{category}',['uses' => 'App\Http\Controllers\ProductController@show_category']);

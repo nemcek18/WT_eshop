@@ -128,7 +128,7 @@
                     <h5 class="font-weight-bold m-0">Spolu: {{ $final_price }} €</h5>
                 </div>
                 <div class="col-6 col-md-4 col-lg-3 py-4">
-                    <a href="{{ url('/basket/delivery&payment') }}" role="button" id="btn_kategorie" type="submit" class="btn btn-dark btn-block">Pokračovať</a>
+                    <a href="{{ url('/basket/delivery_payment') }}" role="button" id="btn_kategorie" type="submit" class="btn btn-dark btn-block">Pokračovať</a>
                 </div>
             </div>
         </div>

@@ -22,9 +22,44 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        /*$out = new \Symfony\Component\Console\Output\ConsoleOutput();
+        $out->writeln("Vyvolana funkcia  create order");
+        $out->writeln("1 Meno: " . $request->name);
+        $out->writeln("2 Priezvisko: " . $request->surname);
+        $out->writeln("3 Ulica: " . $request->street);
+        $out->writeln("4 Mesto: " . $request->city);
+        $out->writeln("5 PSC: " . $request->postcode);
+        $out->writeln("6 Email: " . $request->email);
+        $out->writeln("7 Tel: " . $request->tel);*/
+
+        $cart = session()->get('cart');
+        $delivery_payment = session()->get('delivery_payment');
+
+        //kontrola vypisanim
+        foreach ($cart as $value) {
+            foreach ($value as $val) {
+            echo $val . " ";
+            }
+        }
+
+        foreach ($delivery_payment as $value) {
+            echo $value. " ";
+        }
+
+        
+        /*$out = new \Symfony\Component\Console\Output\ConsoleOutput();
+        $out->print_r("Cart: " . $cart_string);
+        $out->writeln("Del and pay: " . $delivery_payment_string);*/
+
+
+        //delete data from session used for cart
+        session()->forget('cart');
+        session()->forget('delivery_payment');
+
+        $order_num = 123456;
+        return view('baskets.order_completion')->with('order_num', $order_num);
     }
 
     /**

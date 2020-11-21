@@ -25,6 +25,11 @@ class HomeController extends Controller
      */
     public function index()
     {
+        /*$cart = session()->get('cart');
+        if($cart) {
+            $cart = [];
+        }
+        session()->put('cart', $cart);*/
 
         $products_count = Product::get()->count();
         
