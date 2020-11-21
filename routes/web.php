@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 	return view('home');
 });*/
 
+// search
+Route::get('/search','App\Http\Controllers\SearchController@index')->name('search');
 
 Route::get('/{category}',['uses' => 'App\Http\Controllers\ProductController@show_category']);
 Route::get('/{category}/{id}',['uses' => 'App\Http\Controllers\ProductController@show'])->where('id','[0-9]+');
