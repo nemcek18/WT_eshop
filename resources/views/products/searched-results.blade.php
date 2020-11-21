@@ -17,8 +17,8 @@
                                 <button class="btn btn-dark btn-block dropdown-toggle" type="button" id="btn_kategorie" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Zoradiť podľa
                                 </button>
                                 <div class="dropdown-menu w-100" aria-labelledby="btn_kategorie">
-                                    <a href="{{ url('/' . $products . '/asc') }}" class="dropdown-item text-center text-md-left">Najlacnejšie</a>
-                                    <a href="{{ url('/' . $products . '/desc') }}" class="dropdown-item text-center text-md-left">Najdrahšie</a>
+                                    <a href="{{ url('/search/' . $query . '/asc') }}" class="dropdown-item text-center text-md-left">Najlacnejšie</a>
+                                    <a href="{{ url('/search/' . $query . '/desc') }}" class="dropdown-item text-center text-md-left">Najdrahšie</a>
                                 </div>
                             </div>
                         </div>

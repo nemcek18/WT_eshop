@@ -39,8 +39,27 @@ class SearchController extends Controller
         $products->appends(['query' => $query]);
 
         // echo $products;
-        return view('products.searched-results')->with('products',$products);   
+        return view('products.searched-results')->with('products',$products)->with('query',$query);   
     }
 
-    
+    public function sort($query, $direction)
+    {
+        $products = DB::table('products')
+                        ->join('categories_products','categories_products.product_id','=','products.id')
+                        ->join('categories','categories_products.category_id','=','categories.id')
+                        ->join('images','images.product_id','=','products.id')
+                        ->where('images.type','small')
+                        ->where(function($q) use ($query)
+                        {
+                            $q->where('description','like',"%$query%")
+                            ->orWhere('brand','ilike',"%$query%")
+                            ->orWhere('model','ilike',"%$query%");
+                        })
+                        ->orderBy('products.price',$direction)
+                        ->Paginate(24)
+                        ->onEachSide(2)
+                        ->setpath('');
+                        
+        return view('products.searched-results')->with('products',$products)->with('query',$query);
+    }
 }
