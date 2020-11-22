@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Address;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -38,16 +39,58 @@ class OrderController extends Controller
         $delivery_payment = session()->get('delivery_payment');
 
         //kontrola vypisanim
-        foreach ($cart as $value) {
+        /*foreach ($cart as $value) {
             foreach ($value as $val) {
             echo $val . " ";
             }
-        }
+        }*/
 
-        foreach ($delivery_payment as $value) {
+        /*foreach ($delivery_payment as $value) {
             echo $value. " ";
+        }*/
+
+
+        //create address if not exist
+        $address = Address::where('street', '=', $request->street)
+                        ->where('city', '=', $request->city)
+                        ->where('postal_code', '=', $request->postcode)
+                        ->first();
+
+        if ($address === null) {
+            $address = Address::create(['street' => $request->street,'city' => $request->city,
+                                        'postal_code' => $request->postcode]);
         }
 
+
+        //create order
+        $total = 0;
+        foreach ($cart as $record) {
+            $total = $total + $record["overall_price"];
+        }
+
+        $timestamp = now();
+        $order = Order::create(['total' => $total,'created' => $timestamp,'address_id' => $address->id,
+                                'name' => $request->name,'surname' => $request->surname,'delivery' => $delivery_payment['delivery'],
+                                'payment' => $delivery_payment['payment']]);
+
+        
+        //$products_array = [$product->id => ['count' => 1 ]];
+
+        $products_array = [];
+
+        //create associative array for query to database for create rows
+        foreach ($cart as $id => $record) {
+            //echo "___ Produkt id: " . $id . " produkt množstvo: " . $record['quantity'] . "___";
+            $products_array[$id] = ['count' => $record['quantity']];
+            
+        }
+        //echo print_r($products_array);
+
+        //add rows to orders_products
+        $order->products()->sync($products_array);                      
+
+        //echo " Adresa: " . $address->id;
+        //echo " Objednavka: " . $order->id;
         
         /*$out = new \Symfony\Component\Console\Output\ConsoleOutput();
         $out->print_r("Cart: " . $cart_string);
@@ -58,8 +101,7 @@ class OrderController extends Controller
         session()->forget('cart');
         session()->forget('delivery_payment');
 
-        $order_num = 123456;
-        return view('baskets.order_completion')->with('order_num', $order_num);
+        return view('baskets.order_completion')->with('order_num', $order->id);
     }
 
     /**

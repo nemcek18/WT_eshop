@@ -196,7 +196,6 @@
 $(function() {
     var id = {!! $passed_id !!};
     $('#modal' + id).modal('show');
-    //$('#modal590').modal('show');
 });
 </script>
 @endif
