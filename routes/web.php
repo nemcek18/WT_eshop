@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 //Route::get('/cart_add/{id}', 'App\Http\Controllers\ProductController@addToCart');
 
+// search
+Route::get('/search','App\Http\Controllers\SearchController@index')->name('search');
+Route::get('/search/{query}/{direction}',['uses'=>'App\Http\Controllers\SearchController@sort']);
 
 Route::get('/cart_add/{id}', 'App\Http\Controllers\ProductController@addToCart');
 Route::get('/remove_cart/{id}', 'App\Http\Controllers\ProductController@removeCart');
