@@ -51,7 +51,8 @@
                                                 <h5 class="mr-auto font-weight-bold m-0">{{ $product->price }} €</h5>
                                                 <small class="text-muted">{{ intval($product->price * 0.81) }} € bez DPH</small>
                                             </div>
-                                            <a href="#" class="btn btn-info ml-auto" id="btn_kategorie" data-toggle="modal" data-target="#{{ 'modal' . $product->id}}" >Kúpiť</a>
+                                            <!--<a href="#" class="btn btn-info ml-auto" id="btn_kategorie" data-toggle="modal" data-target="#{{ 'modal' . $product->id}}" >Kúpiť</a>--->
+                                            <a href="{{ url('cart_add/'.$product->product_id) }}" class="btn btn-info ml-auto">Kúpiť</a>
                                         </div>
                                     </div>
                                 </div>
@@ -59,7 +60,7 @@
                             </div>
 
 
-                            <div class="modal fade" id="{{ 'modal' . $product->id }}" role="dialog" aria-labelledby="modal_buy_title" aria-hidden="true">
+                            <div class="modal fade" id="{{ 'modal' . $product->product_id }}" role="dialog" aria-labelledby="modal_buy_title" aria-hidden="true">
                               <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                   <div class="modal-header p-2 mx-auto">
@@ -74,7 +75,7 @@
                                   </div>
                                   <div class="modal-footer p-2">
                                     <button type="button" class="btn btn-outline-dark mr-auto" data-dismiss="modal" aria-label="Close">Späť</button>
-                                    <a href="../../kos_prehlad/kos_prehlad.html">
+                                    <a href="{{ url('/basket') }}">
                                         <button type="button" class="btn btn-dark ml-auto">Pokračovať do košíka</button>
                                     </a>
                                   </div>
@@ -261,4 +262,19 @@
                 </div>
             </div>
         </div>
+
+@if(!empty(Session::get('modal')))
+@php
+    $passed_id = Session::get('modal');
+    Session::forget('modal');
+@endphp
+<script>
+$(function() {
+    var id = {!! $passed_id !!};
+    $('#modal' + id).modal('show');
+});
+</script>
+@endif
+
+
 @endsection

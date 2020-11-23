@@ -37,7 +37,10 @@
                             </div>
                             <div class="col-5 col-sm-4 col-lg-3 col-xl-2">
                                 <div class="row justify-content-end">
-                                    <button type="button" class="btn btn-info mt-1">Kúpiť</button>
+                                    <!--<button type="button" class="btn btn-info mt-1">Kúpiť</button>--->
+                                    <a href="{{ url('cart_add/'.$detail->id) }}">
+                                        <button type="button" class="btn btn-info mt-1">Kúpiť</button>
+                                    </a>
                                 </div>    
                             </div>  
                         </div>
