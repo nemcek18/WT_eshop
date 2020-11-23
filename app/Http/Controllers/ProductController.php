@@ -60,6 +60,13 @@ class ProductController extends Controller
         $min_price = $products->min('price');      
         $max_price = $products->max('price');
 
+        if ($request->filled('min_price')) {
+            $products = $products->where('products.price', ">=", $request->get('min_price'));
+        }
+
+        if ($request->filled('max_price')) {
+            $products = $products->where('products.price', "<=", $request->get('max_price'));
+        }
 
         if ($request->filled('sort')) {
             if ($request->sort == 'asc') {
@@ -68,14 +75,6 @@ class ProductController extends Controller
                 $products = $products->orderBy('products.price', "desc");
 
             }
-        }
-
-        if ($request->filled('min_price')) {
-            $products = $products->where('products.price', ">=", $request->get('min_price'));
-        }
-
-        if ($request->filled('max_price')) {
-            $products = $products->where('products.price', "<=", $request->get('max_price'));
         }
 
         $rams = self::get_rams($category);

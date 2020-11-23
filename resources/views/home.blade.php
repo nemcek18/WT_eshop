@@ -16,7 +16,7 @@
             
             <div class="col-10 offset-1 offset-sm-0 col-sm-6 col-xl-3 d-flex">
                 <div class="card py-4 w-100 border-0 d-flex flex-column justify-content-between">
-                    <a href="{{ url('/' . $product->name . '/' . $product['product_id']) }}" style="text-decoration:none; color:inherit;">
+                    <a href="{{ url('/category/' . $product->name . '/' . $product['product_id']) }}" style="text-decoration:none; color:inherit;">
                         <img class="card-img-top mx-auto" src="{{ $product->url }}" alt="obrazok produktu">
                         <div class="card-body p-1">
                             <h5 class="card-title font-weight-bold">{{ $product->brand }} {{ $product->model }}</h5>
@@ -80,7 +80,7 @@
             @foreach($new_products as $product)
             <div class="col-10 offset-1 offset-sm-0 col-sm-6 col-xl-3 d-flex">
                 <div class="card py-4 w-100 border-0 d-flex flex-column justify-content-between">
-                    <a href="{{ url('/' . $product->name . '/' . $product['product_id']) }}" style="text-decoration:none; color:inherit;">
+                    <a href="{{ url('/category/' . $product->name . '/' . $product['product_id']) }}" style="text-decoration:none; color:inherit;">
                         <img class="card-img-top mx-auto" src="{{ $product->url }}" alt="obrazok produktu">
                         <div class="card-body p-1">
                             <h5 class="card-title font-weight-bold">{{ $product->brand }} {{ $product->model }}</h5>
@@ -139,7 +139,7 @@
             @foreach($rec_products as $product)
             <div class="col-10 offset-1 offset-sm-0 col-sm-6 col-xl-3 d-flex">
                 <div class="card py-4 w-100 border-0 d-flex flex-column justify-content-between">
-                    <a href="{{ url('/' . $product->name . '/' . $product['product_id']) }}" style="text-decoration:none; color:inherit;">
+                    <a href="{{ url('/category/' . $product->name . '/' . $product['product_id']) }}" style="text-decoration:none; color:inherit;">
                         <img class="card-img-top mx-auto" src="{{ $product->url }}" alt="obrazok produktu">
                         <div class="card-body p-1">
                             <h5 class="card-title font-weight-bold">{{ $product->brand }} {{ $product->model }}</h5>

@@ -31,12 +31,12 @@ Route::get('/basket', 'App\Http\Controllers\BasketController@index');
 Route::get('/basket/delivery_payment', 'App\Http\Controllers\BasketController@delivery_payment');
 Route::get('/basket/delivery_data', 'App\Http\Controllers\BasketController@delivery_data');
 
-Route::get('/{category}',['uses' => 'App\Http\Controllers\ProductController@show_category']);
-Route::get('/{category}/{id}',['uses' => 'App\Http\Controllers\ProductController@show'])->where('id','[0-9]+');
+// Route::get('/{category}',['uses' => 'App\Http\Controllers\ProductController@show_category']);
+Route::get('/category/{category}/{id}',['uses' => 'App\Http\Controllers\ProductController@show'])->where('id','[0-9]+');
 
-Route::get('/{category}', 'App\Http\Controllers\ProductController@index')->name('products.index');
-Route::get('/products', 'App\Http\Controllers\SearchController@index')->name('search.index');
+Route::get('/category/{category}', 'App\Http\Controllers\ProductController@index')->name('products.index');
+Route::get('/search', 'App\Http\Controllers\SearchController@index')->name('search.index');
 
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/', 'App\Http\Controllers\HomeController@index');
