@@ -19,8 +19,7 @@ class SearchController extends Controller
                             ->where(function($q) use ($query)
                             {
                                 $q->where('description','ilike',"%$query%")
-                                ->orWhere('brand','ilike',"%$query%")
-                                ->orWhere('model','ilike',"%$query%");
+                                ->orWhere(DB::raw("CONCAT(brand, ' ', model)"), 'ilike', '%'. $query. '%');
                             });
 
         $brands = array();
@@ -71,8 +70,8 @@ class SearchController extends Controller
                             ->where(function($q) use ($query)
                             {
                                 $q->where('description','ilike',"%$query%")
-                                ->orWhere('brand','ilike',"%$query%")
-                                ->orWhere('model','ilike',"%$query%");
+                                ->orWhere(DB::raw("CONCAT(brand, ' ', model)"), 'ilike', '%'. $query. '%');
+
                             });
 
         // echo $request->validate;
