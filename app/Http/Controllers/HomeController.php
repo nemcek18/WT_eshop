@@ -31,9 +31,18 @@ class HomeController extends Controller
         }
         session()->put('cart', $cart);*/
 
-        $products_count = Product::get()->count();
-        
-        $products_list = self::generator(12,1,$products_count);
+        // $products_count = Product::get()->count();
+        $products_all = Product::all();
+        $products_list = array();
+        foreach ($products_all as $product) {
+            array_push($products_list, $product->id);
+        }
+        $timestamp = date_create()->format('Ymd');
+        srand($timestamp);
+
+        shuffle($products_list);
+
+        $products_list = array_slice($products_list,0,12);
 
         $products = Product::whereIn('products.id', $products_list)
                     ->join('images','products.id','=','images.product_id')
@@ -42,7 +51,6 @@ class HomeController extends Controller
                     ->join('categories','categories_products.category_id','=','categories.id')
                     ->get();
 
-
         $action_products = $products->slice(0, 4);
         $new_products = $products->slice(4, 4);
         $rec_products = $products->slice(8, 4);
@@ -50,18 +58,5 @@ class HomeController extends Controller
         return view('home')->with('action_products', $action_products)
                     ->with('new_products', $new_products)
                     ->with('rec_products', $rec_products);
-    }
-
-
-    private function generator($n,$min, $max) {
-        $timestamp = date_create()->format('Ymd');
-        srand($timestamp);
-       
-        $numbers = range($min, $max);
-       
-        $rand_keys = array_rand($numbers, $n);
-       
-        return $rand_keys;
-    }
-       
+    }       
 }

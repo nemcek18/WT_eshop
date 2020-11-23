@@ -5,73 +5,134 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Arr;
+
 class ProductController extends Controller
 {
-
-    public function show_category($category)
+    private function get_filter_brands($category)
     {
-        $category_dict = [
-            'tablets' => 1,
-            'mobiles' => 2,
-            'watches' => 3,
-            'televisions' => 4,
-            'computers' => 5,
-            'laptops' => 6,
-        ];
+        $products = Product::whereHas('categories',function ($q) use ($category){
+                            $q->where('name','=', $category); });
 
-        $products_all = Product::whereHas('categories',function ($q) use ($category_dict, $category){
-                            $q->where('category_id','=', $category_dict[$category]); })
-                            ->join('images','products.id','=','images.product_id')
+        $brands = array();
+        foreach ($products->get() as $product) {
+            if (!in_array($product->brand, $brands)) {
+                array_push($brands, $product->brand);
+            }
+        }
+        $brands = Arr::sort($brands);
+        return $brands;
+    }
+
+    private function get_rams($category) {
+        $products = Product::whereHas('categories',function ($q) use ($category){
+                            $q->where('name','=', $category); });
+
+        $rams = array();
+        foreach ($products->get() as $product) {
+            if (!in_array($product->ram, $rams)) {
+                array_push($rams, $product->ram);
+            }
+        }
+        $rams = Arr::sort($rams);
+        return $rams;   
+    }
+
+    private function get_types($category) {
+        $products = Product::whereHas('categories',function ($q) use ($category){
+                            $q->where('name','=', $category); });
+
+        $types = array();
+        foreach ($products->get() as $product) {
+            if (!in_array($product->type, $types)) {
+                array_push($types, $product->type);
+            }
+        }
+        return $types;   
+    }
+
+    public function index($category, Request $request)
+    {
+        // dd($request);
+        $products = Product::whereHas('categories',function ($q) use ($category){
+                                $q->where('name','=', $category); });
+
+        $min_price = $products->min('price');      
+        $max_price = $products->max('price');
+
+
+        if ($request->filled('sort')) {
+            if ($request->sort == 'asc') {
+                $products = $products->orderBy('products.price', "asc");
+            } else {
+                $products = $products->orderBy('products.price', "desc");
+
+            }
+        }
+
+        if ($request->filled('min_price')) {
+            $products = $products->where('products.price', ">=", $request->get('min_price'));
+        }
+
+        if ($request->filled('max_price')) {
+            $products = $products->where('products.price', "<=", $request->get('max_price'));
+        }
+
+        $rams = self::get_rams($category);
+        $ram_category = array('mobiles','tablets','laptops','computers');
+        $query_rams = $request->get("rams");
+
+        if ($request->filled('rams')) {
+            $products = $products->whereIn('products.ram',$request->get("rams"));
+        }
+
+
+        $types = self::get_types($category);
+        $type_category = array('watches','televisions');
+        $query_types = $request->get('types');
+
+        // echo $products->get();
+        // dd($query_types);
+        if ($request->filled('types')) {
+            $products = $products->WhereIn('products.type',$request->get("types"));
+        }
+
+        $brands = self::get_filter_brands($category);
+
+        $query_brands = $request->get("brands");
+
+        if ($request->filled('brands')) {
+            $products = $products->whereIn('products.brand',$request->get("brands"));
+        }
+
+
+        // dd($request);
+        $products = $products->join('images','products.id','=','images.product_id')
                             ->where('images.type','small')
-                            ->get();
+                            ->Paginate(24)->onEachSide(2)
+                            ->appends('sort', $request->get('sort'))
+                            ->appends('min_price', $request->get('min_price'))
+                            ->appends('max_price', $request->get('max_price'))
+                            ->appends('brands',$query_brands)
+                            ->appends('rams',$query_rams)
+                            ->appends('types',$query_types);
 
-        $price = array(
-            'min' => $products_all->min('price'),
-            'max' => $products_all->max('price')
-        );
 
-        $products = Product::whereHas('categories',function ($q) use ($category_dict, $category){
-                            $q->where('category_id','=', $category_dict[$category]); })
-                            ->join('images','products.id','=','images.product_id')
-                            ->where('images.type','small')
-                            ->Paginate(24)->onEachSide(2);
 
-        // echo $price['min'];
         return view('products.products')
                 ->with('products', $products)
                 ->with('category', $category)
-                ->with('price', $price);
-    }
+                ->with('min_price', $min_price)
+                ->with('max_price', $max_price)
+                ->with('brands',$brands)
+                ->with('query_brands',$query_brands)
+                ->with('ram_category',$ram_category)
+                ->with('rams',$rams)
+                ->with('query_rams',$query_rams)
+                ->with('type_category',$type_category)
+                ->with('types',$types)
+                ->with('query_types',$query_types);
 
-    public function sort($category, $direction)
-    {
-        $category_dict = [
-            'tablets' => 1,
-            'mobiles' => 2,
-            'watches' => 3,
-            'televisions' => 4,
-            'computers' => 5,
-            'laptops' => 6,
-        ];
-
-        $products = Product::whereHas('categories',function ($q) use ($category_dict, $category){
-                            $q->where('category_id','=', $category_dict[$category]); })
-                            ->join('images','products.id','=','images.product_id')
-                            ->where('images.type','small')
-                            ->orderBy('products.price', strtoupper($direction))
-                            ->Paginate(24)->onEachSide(2);
-
-        return view('products.products')->with('products', $products)->with('category',$category);   
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
     }
 
     /**

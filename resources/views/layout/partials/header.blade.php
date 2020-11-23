@@ -4,7 +4,6 @@
             <div class="col-md-1 pr-md-0 pl-md-2 pr-lg-4 pl-lg-2">
                 <p class="text-center">
                     <a href="{{ url('/') }}">
-                        <!---<img src="../img/logo.png" alt="logo" class="img-fluid rounded" style="max-width: 50px;">--->
                         <img src="{{ asset('/logo.png') }}" alt="logo" class="img-fluid rounded" style="max-width: 50px;">
                     </a>
                 </p>
@@ -12,7 +11,7 @@
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-12">
-                        <form action="{{ route('search') }}" method="GET" class="form-horizontal" accept-charset="utf-8">
+                        <form action="{{ route('search.index') }}" method="GET" class="form-horizontal" accept-charset="utf-8">
                             <div class="input-group">
                                 <input type="text" class="form-control" placeholder="Hľadaný výraz" value="" name="query" id="query" aria-label="Hľadaný výraz">
                                 <div class="input-group-append">

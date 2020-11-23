@@ -33,8 +33,9 @@ Route::get('/basket/delivery_data', 'App\Http\Controllers\BasketController@deliv
 
 Route::get('/{category}',['uses' => 'App\Http\Controllers\ProductController@show_category']);
 Route::get('/{category}/{id}',['uses' => 'App\Http\Controllers\ProductController@show'])->where('id','[0-9]+');
-Route::get('/{category}/{desc}',['uses' => 'App\Http\Controllers\ProductController@sort']);
-Route::get('/{category}/{asc}',['uses' => 'App\Http\Controllers\ProductController@sort']);
+
+Route::get('/{category}', 'App\Http\Controllers\ProductController@index')->name('products.index');
+Route::get('/products', 'App\Http\Controllers\SearchController@index')->name('search.index');
 
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
