@@ -45,14 +45,27 @@
                     <div class="col-12 col-md-8 col-lg-6">
                         <form action="{{ url('/basket/delivery_data') }}" id="delivery_data" method="post">
                             {{ csrf_field() }}
-                            <div class="form-group py-1">
-                                <label class="font-weight-bold" for="input_name">Meno</label>
-                                <input name="name" type="text" class="form-control" id="input_name" title="meno" pattern="([a-zA-Z]+)" required>
-                            </div>
-                            <div class="form-group py-1">
-                                <label class="font-weight-bold" for="input_surname">Priezvisko</label>
-                                <input name="surname" type="text" class="form-control" id="input_surname" title="priezvisko" pattern="([a-zA-Z]+)" required>
-                            </div>
+
+                            @guest
+                                <div class="form-group py-1">
+                                    <label class="font-weight-bold" for="input_name">Meno</label>
+                                    <input name="name" type="text" class="form-control" id="input_name" title="meno" pattern="([a-zA-Z]+)" required>
+                                </div>
+                                <div class="form-group py-1">
+                                    <label class="font-weight-bold" for="input_surname">Priezvisko</label>
+                                    <input name="surname" type="text" class="form-control" id="input_surname" title="priezvisko" pattern="([a-zA-Z]+)" required>
+                                </div>
+                            @else
+                                <div class="form-group py-1">
+                                    <label class="font-weight-bold" for="input_name">Meno</label>
+                                    <input name="name" type="text" class="form-control" id="input_name" value="{{ Auth::user()->name}}" title="meno" pattern="([a-zA-Z]+)" required>
+                                </div>
+                                <div class="form-group py-1">
+                                    <label class="font-weight-bold" for="input_surname">Priezvisko</label>
+                                    <input name="surname" type="text" class="form-control" id="input_surname" value="{{ Auth::user()->surname}}" title="priezvisko" pattern="([a-zA-Z]+)" required>
+                                </div>
+                            @endguest
+
                             <div class="form-group py-1">
                                 <label class="font-weight-bold"  for="input_street">Ulica</label>
                                 <input name="street" type="text" class="form-control" id="input_street" required>

@@ -74,9 +74,9 @@
                     </a>
                     
                     <div class="row justify-content-center">
-                        <a href="../nastavenia/nastavenia.html">
+                        <!---<a href="../nastavenia/nastavenia.html">--->
                             <p class="text-muted m-0" id="username">{{ Auth::user()->name . " " . Auth::user()->surname }}</p>
-                        </a>
+                        <!--</a>--->
                     </div>
                 </div>
             @endguest
