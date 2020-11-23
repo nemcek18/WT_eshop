@@ -8,7 +8,7 @@
             <ol class="breadcrumb">
             <li class="breadcrumb-item"><a class="text-info" href="{{ url('/') }}">Úvodná strana</a></li>
             <li class="breadcrumb-item"><a class="text-info" href="{{ url('/basket') }}">Košík</a></li>
-            <li class="breadcrumb-item"><a class="text-info" href="{{ url('/basket/delivery&payment') }}">Doprava a platba</a></li>
+            <li class="breadcrumb-item"><a class="text-info" href="{{ url('/basket/delivery_payment') }}">Doprava a platba</a></li>
             <li class="breadcrumb-item active" aria-current="page">Dodacie údaje</li>
             </ol>
         </nav>
@@ -20,7 +20,7 @@
     <div class="container">
         <div class="row justify-content-center align-items-center">
             <div class="col-6 col-md-4 col-lg-3 pt-1">
-                <a href="{{ url('/basket/delivery&payment') }}" role="button" id="btn_kategorie" class="btn btn-outline-dark btn-block">Späť</a>
+                <a href="{{ url('/basket/delivery_payment') }}" role="button" id="btn_kategorie" class="btn btn-outline-dark btn-block">Späť</a>
             </div>
             <div class="col-6 col-md-4 col-lg-3 pt-1"></div>
         </div>
@@ -97,6 +97,11 @@
             $final_price = $final_price + $product['overall_price']
         @endphp
     @endforeach
+    @if(session('delivery_payment'))
+        @php
+            $final_price = $final_price + session('delivery_payment')['additional_price']
+        @endphp
+    @endif
     <section id="navigation_down">
         <div class="container">
             <div class="row justify-content-center align-items-center">

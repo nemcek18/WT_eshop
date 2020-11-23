@@ -38,17 +38,6 @@ class OrderController extends Controller
         $cart = session()->get('cart');
         $delivery_payment = session()->get('delivery_payment');
 
-        //kontrola vypisanim
-        /*foreach ($cart as $value) {
-            foreach ($value as $val) {
-            echo $val . " ";
-            }
-        }*/
-
-        /*foreach ($delivery_payment as $value) {
-            echo $value. " ";
-        }*/
-
 
         //create address if not exist
         $address = Address::where('street', '=', $request->street)
@@ -67,35 +56,23 @@ class OrderController extends Controller
         foreach ($cart as $record) {
             $total = $total + $record["overall_price"];
         }
+        $total = $total + $delivery_payment['additional_price'];
 
         $timestamp = now();
         $order = Order::create(['total' => $total,'created' => $timestamp,'address_id' => $address->id,
                                 'name' => $request->name,'surname' => $request->surname,'delivery' => $delivery_payment['delivery'],
                                 'payment' => $delivery_payment['payment']]);
 
-        
-        //$products_array = [$product->id => ['count' => 1 ]];
-
-        $products_array = [];
 
         //create associative array for query to database for create rows
+        $products_array = [];
         foreach ($cart as $id => $record) {
-            //echo "___ Produkt id: " . $id . " produkt množstvo: " . $record['quantity'] . "___";
-            $products_array[$id] = ['count' => $record['quantity']];
-            
+            $products_array[$id] = ['count' => $record['quantity']];     
         }
-        //echo print_r($products_array);
+
 
         //add rows to orders_products
         $order->products()->sync($products_array);                      
-
-        //echo " Adresa: " . $address->id;
-        //echo " Objednavka: " . $order->id;
-        
-        /*$out = new \Symfony\Component\Console\Output\ConsoleOutput();
-        $out->print_r("Cart: " . $cart_string);
-        $out->writeln("Del and pay: " . $delivery_payment_string);*/
-
 
         //delete data from session used for cart
         session()->forget('cart');

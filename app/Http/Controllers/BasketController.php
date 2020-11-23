@@ -52,9 +52,25 @@ class BasketController extends Controller
         $out->writeln("1: " . $request->delivery);
         $out->writeln("2: " . $request->payment);*/
 
+        $additional_price = 0;
+
+        switch ($request->delivery) {
+            case "kurier":
+                $additional_price = $additional_price + 5;
+                break;
+            case "posta":
+                $additional_price = $additional_price + 3;
+                break;
+        }
+
+        if($request->payment == "prevzatie"){
+            $additional_price = $additional_price + 1;
+        }
+
         $delivery_payment = session()->get('delivery_payment');
         $delivery_payment['delivery'] = $request->delivery;
         $delivery_payment['payment'] = $request->payment;
+        $delivery_payment['additional_price'] = $additional_price;
         session()->put('delivery_payment', $delivery_payment);
 
         return view('baskets.delivery_data');
