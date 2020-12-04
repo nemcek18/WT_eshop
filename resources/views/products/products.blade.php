@@ -91,7 +91,7 @@
             </div>                
         </section>
 
-        <!--
+
         <section>
             <div class="d-none d-md-block">
                 {{ $products->links('vendor.pagination.custom-md') }}
@@ -100,16 +100,6 @@
                 {{ $products->links('vendor.pagination.custom') }}
             </div>
         </section>
-        -->
-
-        <nav>
-            <div class="d-none d-md-block">
-                {{ $products->links('vendor.pagination.custom-md') }}
-            </div>
-            <div class="d-block d-md-none">
-                {{ $products->links('vendor.pagination.custom') }}
-            </div>
-        </nav>
 
     </section>
 
