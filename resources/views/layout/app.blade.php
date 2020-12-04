@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     @include('layout.partials.head')
+    @yield('css')
 </head>
 
 <body>
@@ -20,5 +21,6 @@
     @include('layout.partials.footer')
     <!-- JavaScript -->
     @include('layout.partials.footer-scripts')
+    @yield('scripts')
 </body>
 </html> 

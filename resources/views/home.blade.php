@@ -1,7 +1,10 @@
 @extends('layout.app')
 
+@section('css')
+    <link href="{{ asset('/css/categories.css') }}" rel="stylesheet" type="text/css">
+@endsection
+
 @section('content')
-<link href="{{ asset('/css/categories.css') }}" rel="stylesheet" type="text/css">
 
 <article>
     <section id="price_reduction">
