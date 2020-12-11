@@ -28,7 +28,21 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // validations and error handling is up to you!!! ;)
+        /*
+        $request->validate([
+            'name' => 'required|min:3',
+            'description' => 'required',
+        ]);
+        */
+          
+        // $id = Product::max('id') + 1;
+        // error_log($id);
+        $product = Product::create(['brand' => $request->brand, 'model' => $request->model, 'price' => $request->price, 'description' => $request->description]);
+        // error_log($product);
+
+        return response()->json(['id' => $product->id]);
+
     }
 
     /**
@@ -59,14 +73,13 @@ class ProductController extends Controller
         // ]);
              
 
-        error_log($request);
+        // error_log($request);
         $product->brand = $request->brand;
         $product->model = $request->model;
         $product->price = $request->price;
         $product->description = $request->description;
 
         $product->save();
-        // error_log($product);
 
     }
 
