@@ -9,6 +9,7 @@ use App\Models\Product;
 
 class ProductController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      *
@@ -48,9 +49,18 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Product $product)
     {
-        //
+        // validations and error handling is up to you!!! ;)
+        // $request->validate([
+        //     // 'name' => 'required|min:3',
+        //     'description' => 'required',
+        // ]);
+             
+        $product->brand = $request->brand;
+        $product->model = $request->model;
+        $product->description = $request->description;
+        $product->save();
     }
 
     /**
@@ -103,5 +113,10 @@ class ProductController extends Controller
         $rowsNumber = DB::table('products')->count();
             
         return response()->json(['rows' => $products, 'rowsNumber' => $rowsNumber]);
+    }
+
+    public function edit(Product $product)
+    {
+        return response()->json($product);
     }
 }

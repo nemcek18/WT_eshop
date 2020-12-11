@@ -20,3 +20,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('products/list/{page}', 'App\Http\Controllers\API\ProductController@list');
 Route::delete('products/{product}', 'App\Http\Controllers\API\ProductController@destroy');
+
+Route::post('products/', 'App\Http\Controllers\API\ProductController@store');
+
+Route::get('/products/{product}/edit', 'App\Http\Controllers\API\ProductController@edit');
+Route::put('products/{product}', 'App\Http\Controllers\API\ProductController@update');
