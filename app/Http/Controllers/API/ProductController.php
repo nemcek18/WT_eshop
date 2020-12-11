@@ -53,14 +53,21 @@ class ProductController extends Controller
     {
         // validations and error handling is up to you!!! ;)
         // $request->validate([
-        //     // 'name' => 'required|min:3',
-        //     'description' => 'required',
+        //     'brand' => 'required',
+        //     'model' => 'required',
+        //     'description' => 'required | min:20',
         // ]);
              
+
+        error_log($request);
         $product->brand = $request->brand;
         $product->model = $request->model;
+        $product->price = $request->price;
         $product->description = $request->description;
+
         $product->save();
+        // error_log($product);
+
     }
 
     /**
