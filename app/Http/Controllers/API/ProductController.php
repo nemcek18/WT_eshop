@@ -153,11 +153,29 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
+        error_log($product->id);
+
+
+        $id = $product->id;
+
         $product = Product::join('categories_products','categories_products.product_id','=','products.id')
                 ->join('categories','categories.id','=','categories_products.category_id')
-                ->where('product_id',$product->id)
-                ->get()[0];
+                ->where('products.id',$id)
+                ->first();
 
+        $images = DB::table('images')
+                    ->where('product_id','=',$id)
+                    ->where('type','large')
+                    ->get();
+
+        $product->images = $images;
+        
         return response()->json($product);
+    }
+    
+    public function upload(Request $request)
+    {
+        // error_log($request->file);
+        $request->file->move("images", $request->file->getClientOriginalName());
     }
 }
