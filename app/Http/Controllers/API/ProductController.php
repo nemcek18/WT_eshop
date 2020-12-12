@@ -66,20 +66,33 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         // validations and error handling is up to you!!! ;)
-        // $request->validate([
-        //     'brand' => 'required',
-        //     'model' => 'required',
-        //     'description' => 'required | min:20',
-        // ]);
+        $request->validate([
+            'brand' => 'required|max:50',
+            'model' => 'required|max:50',
+            'price' => 'required|gt:0',
+            'description' => 'required|min:10||max:500',
+        ]
+    );
              
-
-        // error_log($request);
         $product->brand = $request->brand;
         $product->model = $request->model;
         $product->price = $request->price;
         $product->description = $request->description;
 
         $product->save();
+
+        $array = array(
+            "tablets" => 1,
+            "mobiles" => 2,
+            "watches" => 3,
+            "televisions" => 4,
+            "computers" => 5,
+            "laptops" => 6,
+        );
+
+        DB::table('categories_products')
+            ->where('product_id',$product->id)
+            ->update(['category_id' => $array[$request->name]]);
 
     }
 
@@ -103,8 +116,8 @@ class ProductController extends Controller
         // get rowsPerPage from query parameters (after ?), if not set => 5
         $rowsPerPage = request('rowsPerPage', 5);
             
-        // get sortBy from query parameters (after ?), if not set => name
-        $sortBy = request('sortBy', 'brand');
+        // get sortBy from query parameters (after ?), if not set => brand
+        $sortBy = request('sortBy', 'price');
             
         // get descending from query parameters (after ?), if not set => false 
         $descendingBool = request('descending', 'false');
@@ -115,14 +128,17 @@ class ProductController extends Controller
         // IFF rowsPerPage == 0, load ALL rows
         if ($rowsPerPage == 0) {
             // load all products from DB
-            $products = DB::table('products')
+            $products = Product::join('categories_products','categories_products.product_id','=','products.id')
+                ->join('categories','categories.id','=','categories_products.category_id')
                 ->orderBy($sortBy, $descending)
                 ->get();
         } else {
             $offset = ($page - 1) * $rowsPerPage;
               
             // load products from DB
-            $products = DB::table('products')
+
+            $products = Product::join('categories_products','categories_products.product_id','=','products.id')
+                ->join('categories','categories.id','=','categories_products.category_id')
                 ->orderBy($sortBy, $descending)
                 ->offset($offset)
                 ->limit($rowsPerPage)
@@ -137,6 +153,11 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
+        $product = Product::join('categories_products','categories_products.product_id','=','products.id')
+                ->join('categories','categories.id','=','categories_products.category_id')
+                ->where('product_id',$product->id)
+                ->get()[0];
+
         return response()->json($product);
     }
 }
