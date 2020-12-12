@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Image extends Model
 {
+    protected $fillable = ['type', 'url', 'product_id'];
+    protected $primaryKey = 'id';
+    public $timestamps = false;
+
     use HasFactory;
 
     public function products()

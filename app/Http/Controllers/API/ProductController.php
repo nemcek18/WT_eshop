@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Image;
+use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
@@ -65,6 +67,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
+
         // validations and error handling is up to you!!! ;)
         $request->validate([
             'brand' => 'required|max:50',
@@ -72,8 +75,8 @@ class ProductController extends Controller
             'price' => 'required|gt:0',
             'description' => 'required|min:10||max:500',
         ]
-    );
-             
+        );
+
         $product->brand = $request->brand;
         $product->model = $request->model;
         $product->price = $request->price;
@@ -94,6 +97,23 @@ class ProductController extends Controller
             ->where('product_id',$product->id)
             ->update(['category_id' => $array[$request->name]]);
 
+
+        // removing images from DB 
+        foreach ($request->removedImages as $item) {
+
+            // if image is from public folder
+            if (str_contains($item['url'], 'http://127.0.0.1:8000/images/')) {
+                $filename = substr($item['url'], 22);
+                unlink($filename);
+            }
+            Image::destroy($item['id']);
+
+        }
+
+        // adding images to DB
+        foreach ($request->uploadedImages as $url) {
+            Image::create(['type' => 'small', 'url' => $url, 'product_id' => $product->id]);
+        }
     }
 
     /**
@@ -165,7 +185,7 @@ class ProductController extends Controller
 
         $images = DB::table('images')
                     ->where('product_id','=',$id)
-                    ->where('type','large')
+                    ->where('type','small')
                     ->get();
 
         $product->images = $images;
@@ -175,7 +195,10 @@ class ProductController extends Controller
     
     public function upload(Request $request)
     {
-        // error_log($request->file);
         $request->file->move("images", $request->file->getClientOriginalName());
+
+        return response()->json([
+            'path' => url("images/" . $request->file->getClientOriginalName())
+        ]);
     }
 }
