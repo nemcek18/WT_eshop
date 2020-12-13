@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Image;
 use Illuminate\Support\Facades\File;
+use Carbon\Carbon;
 
 class ProductController extends Controller
 {
@@ -261,10 +262,11 @@ class ProductController extends Controller
     
     public function upload(Request $request)
     {
-        $request->file->move("images", $request->file->getClientOriginalName());
+        $current_timestamp = Carbon::now()->timestamp;
+        $request->file->move("images", $current_timestamp . $request->file->getClientOriginalName());
 
         return response()->json([
-            'path' => url("images/" . $request->file->getClientOriginalName()),
+            'path' => url("images/" . $current_timestamp . $request->file->getClientOriginalName()),
             'type_gallery' => $request->type_gallery
         ]);
     }

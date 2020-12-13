@@ -193,8 +193,10 @@ class ProductController extends Controller
 
         $gallery = array();
 
-        for ($i=1; $i < sizeof($detail->images); $i++) { 
-            array_push($gallery, $detail->images[$i]);                            
+        foreach ($detail->images as $item) {
+            if ($item->type == "large") {
+                array_push($gallery, $item);                            
+            }
         }
 
         return view('detail')
