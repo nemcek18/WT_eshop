@@ -23,7 +23,11 @@ Route::delete('products/{product}', 'App\Http\Controllers\API\ProductController@
 
 Route::post('products/', 'App\Http\Controllers\API\ProductController@store');
 
+
 Route::get('/products/{product}/edit', 'App\Http\Controllers\API\ProductController@edit');
 Route::put('products/{product}', 'App\Http\Controllers\API\ProductController@update');
 
 Route::post('products/upload', 'App\Http\Controllers\API\ProductController@upload');
+
+// remove uploaded images when cancel button pushed
+Route::post('products/remove', 'App\Http\Controllers\API\ProductController@remove');

@@ -30,18 +30,43 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        // validations and error handling is up to you!!! ;)
-        /*
         $request->validate([
-            'name' => 'required|min:3',
-            'description' => 'required',
-        ]);
-        */
+            'images' => 'gt:0|lt:2',
+            'gallery_images' => 'gt:0',
+            'name' => 'required',
+            'brand' => 'required|max:50',
+            'model' => 'required|max:50',
+            'price' => 'required|gt:0',
+            'description' => 'required|min:10||max:500',
+        ],
+        [
+            'images.gt' => 'Main image is required',
+            'images.lt' => 'Only 1 Main image',
+            'gallery_images.gt' => 'At least 1 gallery image is required',
+        ]
+    );
           
-        // $id = Product::max('id') + 1;
-        // error_log($id);
         $product = Product::create(['brand' => $request->brand, 'model' => $request->model, 'price' => $request->price, 'description' => $request->description]);
-        // error_log($product);
+        
+        $array = array(
+            "tablets" => 1,
+            "mobiles" => 2,
+            "watches" => 3,
+            "televisions" => 4,
+            "computers" => 5,
+            "laptops" => 6,
+        );
+
+        $product->categories()->attach($array[$request->name]);
+
+        // adding images to DB
+        foreach ($request->uploadedImages as $url) {
+            Image::create(['type' => 'small', 'url' => $url, 'product_id' => $product->id]);
+        }
+
+        foreach ($request->galleryUpload as $url) {
+            Image::create(['type' => 'large', 'url' => $url, 'product_id' => $product->id]);
+        }
 
         return response()->json(['id' => $product->id]);
 
@@ -70,12 +95,19 @@ class ProductController extends Controller
 
         // validations and error handling is up to you!!! ;)
         $request->validate([
+            'images' => 'gt:0|lt:2',
+            'gallery_images' => 'gt:0',
             'brand' => 'required|max:50',
             'model' => 'required|max:50',
             'price' => 'required|gt:0',
             'description' => 'required|min:10||max:500',
+        ],
+        [
+            'images.gt' => 'Main image is required',
+            'images.lt' => 'Only 1 Main image',
+            'gallery_images.gt' => 'At least 1 gallery image is required',
         ]
-        );
+    );
 
         $product->brand = $request->brand;
         $product->model = $request->model;
@@ -110,9 +142,25 @@ class ProductController extends Controller
 
         }
 
+        foreach ($request->galleryRemove as $item) {
+
+            // if image is from public folder
+            if (str_contains($item['url'], 'http://127.0.0.1:8000/images/')) {
+                $filename = substr($item['url'], 22);
+                unlink($filename);
+            }
+            Image::destroy($item['id']);
+
+        }
+
         // adding images to DB
+        // return $request;
         foreach ($request->uploadedImages as $url) {
             Image::create(['type' => 'small', 'url' => $url, 'product_id' => $product->id]);
+        }
+
+        foreach ($request->galleryUpload as $url) {
+            Image::create(['type' => 'large', 'url' => $url, 'product_id' => $product->id]);
         }
     }
 
@@ -125,7 +173,18 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
   
-        $product->images()->delete();
+        $images = DB::table('images')
+            ->where('product_id','=',$product->id)
+            ->get();
+
+        foreach ($images as $item) {
+            if (str_contains($item->url, 'http://127.0.0.1:8000/images/')) {
+                $filename = substr($item->url, 22);
+                unlink($filename);
+            }
+            Image::destroy($item->id);
+        }
+
         $product->categories()->detach();
         $product->delete();
  
@@ -189,6 +248,13 @@ class ProductController extends Controller
                     ->get();
 
         $product->images = $images;
+
+        $gallery_images = DB::table('images')
+                    ->where('product_id','=',$id)
+                    ->where('type','large')
+                    ->get();
+
+        $product->gallery_images = $gallery_images;
         
         return response()->json($product);
     }
@@ -198,7 +264,16 @@ class ProductController extends Controller
         $request->file->move("images", $request->file->getClientOriginalName());
 
         return response()->json([
-            'path' => url("images/" . $request->file->getClientOriginalName())
+            'path' => url("images/" . $request->file->getClientOriginalName()),
+            'type_gallery' => $request->type_gallery
         ]);
+    }
+
+    public function remove(Request $request)
+    {
+        foreach ($request->images as $path) {
+            $filename = substr($path, 22);
+            unlink($filename);
+        }
     }
 }

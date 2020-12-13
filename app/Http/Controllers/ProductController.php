@@ -106,7 +106,7 @@ class ProductController extends Controller
 
 
         // dd($request);
-        $products = $products->join('images','products.id','=','images.product_id')
+        $products = $products->leftJoin('images','products.id','=','images.product_id')
                             ->where('images.type','small')
                             ->Paginate(24)->onEachSide(2)
                             ->appends('sort', $request->get('sort'))
@@ -116,7 +116,15 @@ class ProductController extends Controller
                             ->appends('rams',$query_rams)
                             ->appends('types',$query_types);
 
+        // return $products;
 
+                            
+
+                            // >join('user_mobile', function ($join) {
+                            //     $join->on('users.id', '=', 'user_mobile.user_id')
+                            //         ->where('user_mobile.is_primary',1)
+                            //         ->limit(3);
+                            // })
 
         return view('products.products')
                 ->with('products', $products)
@@ -175,22 +183,23 @@ class ProductController extends Controller
 
         $detail = Product::with('images')->find($id);
 
-        $small = $detail->images[0]->url; 
-        $medium = $detail->images[1]->url; 
-        $large = $detail->images[2]->url; 
 
-
-        $gallery = array();
-        for ($i=2; $i < sizeof($detail->images); $i++) { 
-            array_push($gallery, $detail->images[$i]);                            
+        foreach ($detail->images as $item) {
+            if ($item->type == "small") {
+                $small = $item->url;
+                break;
+            }
         }
 
+        $gallery = array();
+
+        for ($i=1; $i < sizeof($detail->images); $i++) { 
+            array_push($gallery, $detail->images[$i]);                            
+        }
 
         return view('detail')
                 ->with('detail', $detail)
                 ->with('small',$small)   
-                ->with('medium',$medium)   
-                ->with('large',$large)   
                 ->with('gallery',$gallery);   
 
     }
